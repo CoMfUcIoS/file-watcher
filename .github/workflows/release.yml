@@ -3,6 +3,7 @@ name: Build and Release
 on:
   push:
     tags: ['*']
+  workflow_dispatch:
 jobs:
   build:
     name: Build binaries
@@ -42,18 +43,18 @@ jobs:
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
-          name: file-watcher-ubuntu-amd64
-          path: ./binaries/file-watcher-ubuntu-amd64
+          name: file-watcher-ubuntu-amd64.zip
+          path: ./binaries/file-watcher-ubuntu-amd64.zip
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
           name: file-watcher-macos-amd64
-          path: ./binaries/file-watcher-macos-amd64
+          path: ./binaries/file-watcher-macos-amd64.zip
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
           name: file-watcher-windows-amd64
-          path: ./binaries/file-watcher-windows-amd64
+          path: ./binaries/file-watcher-windows-amd64.zip
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -70,7 +71,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries/file-watcher-ubuntu-amd64
+          asset_path: ./binaries/file-watcher-ubuntu-amd64.zip
           asset_name: file-watcher-linux-amd64
           asset_content_type: application/octet-stream
       - name: Upload Release Asset (macOS)
@@ -79,7 +80,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries/file-watcher-macos-amd64
+          asset_path: ./binaries/file-watcher-macos-amd64.zip
           asset_name: file-watcher-macos-amd64
           asset_content_type: application/octet-stream
       - name: Upload Release Asset (Windows)
@@ -88,6 +89,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries/file-watcher-windows-amd64
+          asset_path: ./binaries/file-watcher-windows-amd64.zip
           asset_name: file-watcher-windows-amd64.exe
           asset_content_type: application/octet-stream
