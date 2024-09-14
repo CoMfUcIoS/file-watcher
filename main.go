@@ -15,12 +15,13 @@ import (
 func main() {
 	var source string
 	var action string
+	var version bool
 
 	flag.StringVar(&source, "source", "", "Source file or directory to watch")
 	flag.StringVar(&action, "action", "", "CLI command to execute on change")
-	flag.Parse()
-	var version bool
 	flag.BoolVar(&version, "version", false, "Print the version and exit")
+	flag.Parse()
+
 	if version {
 		fmt.Println("Version: v0.5.0")
 		os.Exit(0)
