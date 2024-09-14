@@ -62,7 +62,7 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ./binaries/*.*
+          artifacts: ./binaries/*
           generateReleaseNotes: true
           makeLatest: true
-          name: Release ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
