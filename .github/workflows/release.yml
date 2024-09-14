@@ -43,7 +43,7 @@ jobs:
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
-          name: file-watcher-ubuntu-amd64.zip
+          name: file-watcher-ubuntu-amd64
           path: ./binaries/file-watcher-ubuntu-amd64.zip
       - name: Download binaries
         uses: actions/download-artifact@v4
@@ -72,7 +72,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./binaries/file-watcher-ubuntu-amd64.zip
-          asset_name: file-watcher-linux-amd64
+          asset_name: file-watcher-linux-amd64.zip
           asset_content_type: application/octet-stream
       - name: Upload Release Asset (macOS)
         uses: actions/upload-release-asset@v1
@@ -81,7 +81,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./binaries/file-watcher-macos-amd64.zip
-          asset_name: file-watcher-macos-amd64
+          asset_name: file-watcher-macos-amd64.zip
           asset_content_type: application/octet-stream
       - name: Upload Release Asset (Windows)
         uses: actions/upload-release-asset@v1
@@ -90,5 +90,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./binaries/file-watcher-windows-amd64.zip
-          asset_name: file-watcher-windows-amd64.exe
+          asset_name: file-watcher-windows-amd64.zip
           asset_content_type: application/octet-stream
