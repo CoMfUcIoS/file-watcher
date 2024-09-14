@@ -55,6 +55,10 @@ jobs:
         with:
           name: file-watcher-windows-amd64
           path: ./binaries/file-watcher-windows-amd64.zip
+      - name: dir ./binaries
+        run: |-
+          ls -lah ./binaries
+          ls -lah ./binaries/file-watcher-windows-amd64.zip/
       - name: Create GitHub Release
         id: create_release
         uses: ncipollo/release-action@v1
