@@ -1,0 +1,86 @@
+---
+name: Build and Release
+on:
+  push:
+    tags: ['*']
+jobs:
+  build:
+    name: Build binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.22'
+      - name: Build binary
+        run: |
+          GOOS=$(echo ${{ matrix.os }} | cut -d'-' -f1)
+          GOARCH=amd64
+          go build -o file-watcher-${GOOS}-${GOARCH}
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: file-watcher-${{ matrix.os }}-amd64
+          path: file-watcher-${{ matrix.os }}-amd64
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download binaries
+        uses: actions/download-artifact@v2
+        with:
+          name: file-watcher-ubuntu-latest-amd64
+          path: ./binaries
+      - name: Download binaries
+        uses: actions/download-artifact@v2
+        with:
+          name: file-watcher-macos-latest-amd64
+          path: ./binaries
+      - name: Download binaries
+        uses: actions/download-artifact@v2
+        with:
+          name: file-watcher-windows-latest-amd64
+          path: ./binaries
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset (Linux)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries/file-watcher-ubuntu-latest-amd64
+          asset_name: file-watcher-linux-amd64
+          asset_content_type: application/octet-stream
+      - name: Upload Release Asset (macOS)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries/file-watcher-macos-latest-amd64
+          asset_name: file-watcher-macos-amd64
+          asset_content_type: application/octet-stream
+      - name: Upload Release Asset (Windows)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries/file-watcher-windows-latest-amd64
+          asset_name: file-watcher-windows-amd64.exe
+          asset_content_type: application/octet-stream
