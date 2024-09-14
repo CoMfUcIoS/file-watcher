@@ -13,11 +13,11 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         include:
           - os: macos-latest
-            filename: file-watcher-macos-amd64
+            filename: file-watcher-macos
           - os: ubuntu-latest
-            filename: file-watcher-ubuntu-amd64
+            filename: file-watcher-ubuntu
           - os: windows-latest
-            filename: file-watcher-windows-amd64
+            filename: file-watcher-windows
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,7 +28,6 @@ jobs:
       - name: Build binary
         run: |
           GOOS=$(echo ${{ matrix.os }} | cut -d'-' -f1)
-          GOARCH=amd64
           go build -o ${{ matrix.filename }}
       - name: Upload binary
         uses: actions/upload-artifact@v4
