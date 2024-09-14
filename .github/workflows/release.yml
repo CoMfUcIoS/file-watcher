@@ -44,26 +44,25 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: file-watcher-ubuntu-amd64
-          path: ./binaries/file-watcher-ubuntu-amd64.zip
+          path: ./binaries
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
           name: file-watcher-macos-amd64
-          path: ./binaries/file-watcher-macos-amd64.zip
+          path: ./binaries
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
           name: file-watcher-windows-amd64
-          path: ./binaries/file-watcher-windows-amd64.zip
+          path: ./binaries
       - name: dir ./binaries
         run: |-
           ls -lah ./binaries
-          ls -lah ./binaries/file-watcher-windows-amd64.zip/
       - name: Create GitHub Release
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ./binaries/*.zip
+          artifacts: ./binaries/*.*
           generateReleaseNotes: true
           makeLatest: true
-          name: Release ${{ github.ref }}
+          name: Release ${{ github.ref_name }}
