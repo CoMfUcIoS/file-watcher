@@ -20,6 +20,9 @@ jobs:
             goos: windows
     steps:
       - uses: actions/checkout@v4
+      - name: Update the version
+        run: |-
+          sed -i 's/Version: v[0-9]*\.[0-9]*\.[0-9]*/Version: ${{github.event.release.name}}/g' main.go
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

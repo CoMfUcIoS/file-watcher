@@ -12,6 +12,19 @@ cd file-watcher
 go build -o file-watcher
 ```
 
+Alternatively, you can download the pre-built artifact from the latest release on GitHub that matches your OS and CPU architecture. Untar the downloaded file and use the extracted `file-watcher` file in the folder you extracted:
+
+```sh
+# Download the latest release artifact
+curl -L -o file-watcher.tar.gz https://github.com/comfucios/file-watcher/releases/latest/download/file-watcher-darwin-amd64.tar.gz
+
+# Extract the tar file
+tar -xzf file-watcher.tar.gz
+
+# Use the extracted file-watcher
+./file-watcher --version
+```
+
 ## Usage
 
 The tool requires two flags: `--source` and `--action`.
